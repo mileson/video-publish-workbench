@@ -1,16 +1,33 @@
-# 视频发布工作台（Video Publish Workbench）
+<a id="视频发布工作台video-publish-workbench"></a>
 
-**把一条视频的标题、正文、话题和封面放到同一个本地页面，让你选好再发布。**
+<div align="center">
+
+# 视频发布工作台 · 发布前预览与选择
+
+**把视频、标题、正文和封面放在同一个页面里选好再发布。**
+
+标题候选 · 正文编辑 · 逐平台话题 · 封面选择
+
+[![中文说明](https://img.shields.io/badge/%E8%AF%B4%E6%98%8E-%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-059669)](#readme-detail-15)
+[![项目类型](https://img.shields.io/badge/%E9%A1%B9%E7%9B%AE-Skill-6366f1)](#readme-detail-15)
+
+[✨ 核心特性](#readme-detail-15) · [👀 效果预览](#readme-detail-17) · [✅ 适用场景](#readme-detail-27) · [🚀 安装](#readme-detail-19) · [🧩 模块速查](#readme-detail-33) · [🔒 隐私、验证与维护](#readme-detail-37)
+
+</div>
+
+---
 
 [给 AI 的使用规则](SKILL.md) · [合成输入样例](examples/demo-input.json)
 
-视频做完之后，发布准备往往还散在几个地方：标题在聊天里，正文在文档里，封面在文件夹里，各个平台的话题又不完全一样。这个 Skill 让 AI 先准备候选，你在一个页面里检查、修改和选择。生成本地工作台不需要登录平台、配置密钥或安装发布工具。页面目前使用中文界面，说明文档提供中英文版本。
-
-[详细能力清单](#readme-section-1) · [工作台效果](#readme-section-2) · [安装](#readme-section-3) · [自己填写输入并生成](#readme-section-4) · [告诉 AI 你想做什么](#readme-section-6) · [仓库导航](#readme-section-10) · [常见问题](#readme-section-11)
+视频做完之后，发布准备往往还散在几个地方：标题在聊天里，正文在文档里，封面在文件夹里，各个平台的话题又不完全一样。这个 Skill 让 AI 先准备候选，你在一个页面里检查、修改和选择。生成本地工作台不需要登录平台、配置密钥或安装发布工具。页面与默认说明均使用中文。
 
 <a id="readme-section-1"></a>
 
-## 详细能力清单
+<a id="详细能力清单"></a>
+
+<a id="readme-detail-15"></a>
+
+## ✨ 核心特性
 
 ### 前置准备能力
 
@@ -39,9 +56,19 @@
 
 <a id="readme-section-2"></a>
 
-## 工作台效果
+<a id="工作台效果"></a>
 
-![淡白色遮盖对话与路径后的视频预发布工作台效果示意](docs/screenshots/workbench-preview.png)
+<a id="readme-detail-17"></a>
+
+## 👀 效果预览
+
+<table>
+<tr>
+<td width="33%" align="center"><a href="docs/screenshots/workbench-preview.png"><img src="docs/screenshots/workbench-preview.png" alt="淡白色遮盖对话与路径后的视频预发布工作台效果示意" width="250"></a><br><sub>淡白色遮盖对话与路径后的视频预发布工作台效果示意</sub></td>
+<td width="33%" align="center"><a href="docs/screenshots/choose-title.png"><img src="docs/screenshots/choose-title.png" alt="视频标题候选与选中状态" width="250"></a><br><sub>视频标题候选与选中状态</sub></td>
+<td width="33%" align="center"><a href="docs/screenshots/platform-tags.png"><img src="docs/screenshots/platform-tags.png" alt="小红书、抖音等平台分别选择话题" width="250"></a><br><sub>小红书、抖音等平台分别选择话题</sub></td>
+</tr>
+</table>
 
 视频、不同尺寸的封面、标题候选和正文放在一起检查。各个平台的话题分开选择，选好后再复制当前发布包。
 
@@ -49,19 +76,36 @@
 
 ### 比较标题
 
-![视频标题候选与选中状态](docs/screenshots/choose-title.png)
 
 ### 按平台选话题
 
-![小红书、抖音等平台分别选择话题](docs/screenshots/platform-tags.png)
 
 小红书、抖音、快手、视频号、B 站和 YouTube 各有自己的选择状态。整理某个平台的文案，不会直接连接账号或发布内容。
 
 ![示意：从材料准备到人工选择，再到复制或可选交接](docs/workflow.svg)
 
+<a id="readme-section-7"></a>
+
+<a id="什么时候用"></a>
+
+<a id="readme-detail-27"></a>
+
+## ✅ 适用场景
+
+- 视频和逐字稿已经有了，希望比较几个标题方向，再决定用哪一个。
+- 同一条视频准备发到多个平台，希望正文共用，话题分别选择。
+- 竖版、横版封面需要一起检查，避免拿错图片。
+- 同事或 AI 负责准备候选，你负责最终修改和发布决定。
+
 <a id="readme-section-3"></a>
 
-## 安装
+<a id="安装"></a>
+
+<a id="readme-detail-19"></a>
+
+## 🚀 安装
+
+从下面的现有入口开始，按顺序准备环境、配置并完成首次运行。
 
 ```bash
 npx skills add mileson/video-publish-workbench
@@ -69,7 +113,11 @@ npx skills add mileson/video-publish-workbench
 
 <a id="readme-section-4"></a>
 
-## 自己填写输入并生成
+<a id="自己填写输入并生成"></a>
+
+<a id="readme-detail-21"></a>
+
+## 🔧 自备材料与生成工作台
 
 1. 把 `examples/demo-input.json` 复制到私有项目目录。
 2. 替换合成内容，保留五个标题、正文版本和符合默认数量限制的话题。
@@ -85,7 +133,11 @@ python3 scripts/build_publish_review.py --input /absolute/path/review-input.json
 
 <a id="readme-section-5"></a>
 
-## 可选：交接给发布工具
+<a id="可选交接给发布工具"></a>
+
+<a id="readme-detail-23"></a>
+
+## 📤 可选的发布交接
 
 多数情况下，复制检查好的内容、手动发布就够用了。已有兼容一键发环境时，可以把最新选择转换为任务；一键发不属于本地工作台的默认依赖。
 
@@ -99,7 +151,11 @@ python3 scripts/build_yijianfa_tasks.py --selection /absolute/path/publish-selec
 
 <a id="readme-section-6"></a>
 
-## 告诉 AI 你想做什么
+<a id="告诉-ai-你想做什么"></a>
+
+<a id="readme-detail-25"></a>
+
+## 🤖 给 Agent 的任务示例
 
 把完整仓库放进你的 AI 助手支持的 Skill 目录。支持斜杠调用的助手可以使用下面的指令；其他助手可以直接让它读取仓库里的 `SKILL.md`。斜杠形式取决于所用助手，不是网页里的按钮。
 
@@ -126,18 +182,13 @@ python3 scripts/build_yijianfa_tasks.py --selection /absolute/path/publish-selec
 
 [前置准备示例](examples/preparation-brief.json)给 Agent 读取；最终工作台仍使用原来的输入格式。
 
-<a id="readme-section-7"></a>
-
-## 什么时候用
-
-- 视频和逐字稿已经有了，希望比较几个标题方向，再决定用哪一个。
-- 同一条视频准备发到多个平台，希望正文共用，话题分别选择。
-- 竖版、横版封面需要一起检查，避免拿错图片。
-- 同事或 AI 负责准备候选，你负责最终修改和发布决定。
-
 <a id="readme-section-8"></a>
 
-## 让 AI 帮你准备自己的视频
+<a id="让-ai-帮你准备自己的视频"></a>
+
+<a id="readme-detail-29"></a>
+
+## 🤖 让 Agent 准备视频材料
 
 这是给 Agent 使用的 Skill，加上一组负责校验和生成页面的 Python 脚本。能读取本地文件、运行 Python 的 AI 助手可以按照 `SKILL.md` 操作。把完整目录放到助手支持的 Skill 目录，或者直接把仓库的绝对路径交给它。不同助手的安装位置不同；生成器本身不会自动写 AI 文案。
 
@@ -149,29 +200,43 @@ python3 scripts/build_yijianfa_tasks.py --selection /absolute/path/publish-selec
 
 <a id="readme-section-9"></a>
 
-## 进一步阅读
+<a id="进一步阅读"></a>
+
+<a id="readme-detail-31"></a>
+
+## 📚 进一步阅读
 
 - [贡献指南](CONTRIBUTING.md)
 - [安全反馈](SECURITY.md)
 
 <a id="readme-section-10"></a>
 
-## 仓库导航
+<a id="仓库导航"></a>
 
-| 入口 | 内容 |
-| --- | --- |
-| [`SKILL.md`](SKILL.md) | Agent 使用规则与执行入口 |
-| [`assets/`](assets/) | 项目图片与静态素材 |
-| [`capabilities/`](capabilities/) | 可独立阅读的能力模块 |
-| [`docs/`](docs/) | 项目说明与参考文档 |
-| [`examples/`](examples/) | 可参考的输入与调用示例 |
-| [`references/`](references/) | 技能规则与输入输出合同 |
-| [`scripts/`](scripts/) | 开发与维护脚本 |
-| [`templates/`](templates/) | 可复用模板 |
+<a id="readme-detail-33"></a>
+
+## 🧩 模块速查
+
+按要处理的工作选择入口，先看模块职责，再进入对应文件或目录。
+
+| 模块入口 | 负责什么 | 什么时候看 |
+| --- | --- | --- |
+| [`SKILL.md`](SKILL.md) | Agent 使用规则与执行入口 | 让 Agent 读取任务规则、所需材料与交付要求 |
+| [`assets/`](assets/) | 项目图片与静态素材 | 维护图片、静态文件和展示素材 |
+| [`capabilities/`](capabilities/) | 可独立阅读的能力模块 | 查找具体场景对应的技能入口 |
+| [`docs/`](docs/) | 项目说明与参考文档 | 查阅运行、设计与维护约定 |
+| [`examples/`](examples/) | 可参考的输入与调用示例 | 用现有样例核对输入格式和调用方式 |
+| [`references/`](references/) | 技能规则与输入输出合同 | 核对输入约定、操作细节与适用边界 |
+| [`scripts/`](scripts/) | 开发与维护脚本 | 查找构建、验证或维护的现有命令 |
+| [`templates/`](templates/) | 可复用模板 | 按当前职责查阅实现及目录内说明 |
 
 <a id="readme-section-11"></a>
 
-## 常见问题
+<a id="常见问题"></a>
+
+<a id="readme-detail-35"></a>
+
+## ❓ 常见问题
 
 **会自动上传或发布视频吗？** 演示、校验、页面生成都不会。可选交接也只生成文件。使用外部发布集成前先检查命令和授权范围。
 
@@ -193,7 +258,11 @@ python3 scripts/build_yijianfa_tasks.py --selection /absolute/path/publish-selec
 
 <a id="readme-section-12"></a>
 
-## 隐私、验证与维护
+<a id="隐私验证与维护"></a>
+
+<a id="readme-detail-37"></a>
+
+## 🔒 隐私、验证与维护
 
 公开仓库没有密钥或私人执行记录。构建脚本和页面没有远程网络请求。生成 HTML、选择数据会含本地路径和内容，请保存在私有项目里；AI 服务如何处理材料，需要另外决定。浏览器草稿和剪贴板可能保留你选择的文字。
 
@@ -208,7 +277,11 @@ python3 scripts/test_yijianfa_handoff.py
 
 <a id="readme-section-13"></a>
 
-## 先跑一个安全的演示
+<a id="先跑一个安全的演示"></a>
+
+<a id="readme-detail-39"></a>
+
+## 🚀 先运行合成演示
 
 克隆仓库，或下载 ZIP 后解压，保留完整目录。需要 Python 3.10 或更新版本，以及 PATH 中可用的 FFmpeg、FFprobe。Pillow 只用于生成演示图片；Node.js 可选，用于测试生成页面的 JavaScript 语法。通过适合你系统的可信安装渠道准备这些工具。
 
