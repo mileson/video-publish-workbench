@@ -1,115 +1,216 @@
-# Video Publish Workbench
+# 视频发布工作台（Video Publish Workbench）
 
-**Turn a video’s titles, descriptions, hashtags and covers into one local page where you can review and choose before posting.**
+**把一条视频的标题、正文、话题和封面放到同一个本地页面，让你选好再发布。**
 
-[中文说明](README.zh-CN.md) · [Agent instructions](SKILL.md) · [Input example](examples/demo-input.json)
+[给 AI 的使用规则](SKILL.md) · [合成输入样例](examples/demo-input.json)
 
-Preparing the same video for several destinations often means switching between notes, cover files and platform-specific copy. This skill lets an AI prepare options and gives you a page for the final decisions. Local generation needs no platform login, API key or publishing CLI. The page currently uses Chinese interface labels; the documentation is available in both languages.
+视频做完之后，发布准备往往还散在几个地方：标题在聊天里，正文在文档里，封面在文件夹里，各个平台的话题又不完全一样。这个 Skill 让 AI 先准备候选，你在一个页面里检查、修改和选择。生成本地工作台不需要登录平台、配置密钥或安装发布工具。页面目前使用中文界面，说明文档提供中英文版本。
 
-[Detailed capabilities](#readme-section-1) · [See the workbench](#readme-section-2) · [Typical situations](#readme-section-3) · [Install](#readme-section-4) · [Use it with an AI assistant](#readme-section-7) · [FAQ](#readme-section-12) · [Privacy, verification and maintenance](#readme-section-13)
+[详细能力清单](#readme-section-1) · [工作台效果](#readme-section-2) · [安装](#readme-section-3) · [自己填写输入并生成](#readme-section-4) · [告诉 AI 你想做什么](#readme-section-6) · [仓库导航](#readme-section-10) · [常见问题](#readme-section-11)
 
 <a id="readme-section-1"></a>
 
-## Detailed capabilities
+## 详细能力清单
 
-### Preparation capabilities
+### 前置准备能力
 
-- Research comparable content and facts for the user's topic, recording sources, visible metrics and gaps.
-- Reuse supplied images or use an available image tool to make topic-specific assets and covers.
-- Optionally follow a user-authorized gallery's layout, palette and typography while preserving originals.
-- Draft headline, body and hashtag candidates from actual materials, then build the editable workbench.
+- 按用户主题调研同类内容与事实，记录来源、可见互动数据和缺口。
+- 复用用户图片，或调用可用生图工具制作当前主题的图片与封面。
+- 可选参考用户图册的构图、配色和版式，保留原图，生成新副本。
+- 根据实际材料生成标题、正文和话题候选，再输出可编辑工作台。
 
-**Can preparation run from one request?** Yes, when your assistant has the necessary tools, asset permission and budget. It must report missing access or evidence; the static HTML does not call a model by itself.
+**可以完全自动准备吗？** 在你的 AI 助手具备相应工具、素材授权和必要预算时，可以用一次请求串起准备流程。登录、工具不可用或事实缺失时会报告缺口；静态页面不会自己调用模型。
 
 
-| Capability | What you can do | Boundary |
+| 能力 | 你能做什么 | 条件与边界 |
 | --- | --- | --- |
-| Title-only agent mode | Ask for ten directions and a Top 3 | Uses supplied facts; requires an AI assistant |
-| Video review titles | Compare and edit five candidates | Shared default length is 16 Unicode characters |
-| Description versions | Switch versions, edit each and see character counts | User edits stay in browser storage, not the original input JSON |
-| Media preview | Play the local video and compare 3:4, 4:3 and 16:9 covers | Media is referenced from local files, not fully embedded |
-| Covers | Select, drag, replace or clear a cover | Temporary uploads need their original files for handoff |
-| Six platform sections | Pick separate tags for Xiaohongshu, Douyin, Kuaishou, WeChat Channels, Bilibili and YouTube | Configured limits are repository defaults, not guaranteed current platform policy |
-| Copy | Copy titles, grouped descriptions/hashtags or the full information package for AI | Clipboard access depends on browser permission |
-| Selection data | Read `window.getPublishReviewSelection()` for current choices and cover metadata | An authorized agent or user must save that JSON; no automatic write-back |
-| Validation | Reject missing fields, invalid cover ratios and over-limit input | Does not fact-check claims or inspect platform moderation |
-| Optional handoff | Generate separate yijianfa task files after review | Offline task generation does not prove login, upload or publishing works |
+| 只生成标题 | 让 AI 给出 10 个方向和 Top 3 | 依据你提供的事实，由 AI 助手生成 |
+| 视频标题评审 | 比较、选择、编辑五个标题 | 公共标题默认最多 16 个 Unicode 字符 |
+| 多版正文 | 切换不同版本，分别修改，查看字数 | 页面草稿存在当前浏览器，不自动改原 JSON |
+| 媒体预览 | 播放本地视频，比较三种比例的封面 | 视频与封面引用本地文件，移动后可能失效 |
+| 封面选择 | 点击、拖入、更换或清空封面 | 临时图片交接时需要找到唯一原始文件 |
+| 六个平台 | 小红书、抖音、快手、视频号、B 站、YouTube 分别选话题 | 默认数量是仓库配置，不能当作实时平台规则 |
+| 复制发布内容 | 复制标题、分平台正文话题或完整 AI 发布信息 | 剪贴板需要浏览器允许 |
+| 当前选择数据 | 用 `window.getPublishReviewSelection()` 取得当前选择和封面元信息 | 由用户或授权 Agent 保存 JSON，不自动写回 HTML |
+| 结构校验 | 拦截缺字段、封面比例错误、标题或话题超限 | 不自动核实事实，也不能预测平台审核 |
+| 可选发布交接 | 把确认后的选择转换为逐平台一键发任务 | 离线 JSON 成功不代表登录、上传或真实发布成功 |
 
-Default tag limits are 10 / 5 / 4 / 7 / 10 / 60 for the platforms above. New inputs should contain all six sections; older four/five-platform inputs remain accepted. Actual platform rules must be checked before posting. The public tag library is empty: add only relevant, sourced preferences or activities. No default traffic directory or campaign is contacted.
+六个平台的默认话题数量上限依次为 10、5、4、7、10、60。新任务准备六个平台，旧四／五平台输入仍兼容。真实发布前需核对当前规则；要改数量时同步 schema、两个验证器和测试。公开版标签库为空，用户可以加入有依据的相关条目；没有默认流量目录，也不会自动请求历史活动页面。
 
 <a id="readme-section-2"></a>
 
-## See the workbench
+## 工作台效果
 
-![Privacy-masked video pre-publish workbench preview](docs/screenshots/workbench-preview.png)
+![淡白色遮盖对话与路径后的视频预发布工作台效果示意](docs/screenshots/workbench-preview.png)
 
-Review the video and cover variants alongside headline and description options. Choose hashtags separately for each destination before copying the selected package.
+视频、不同尺寸的封面、标题候选和正文放在一起检查。各个平台的话题分开选择，选好后再复制当前发布包。
 
-This privacy-masked illustration is based on the presentation example. Conversation content and local paths are covered in pale white; the left card is a suggested invocation, not an execution receipt. The detail screenshots below show the actual teaching interface. The example's video content and hashtags are illustrative, not current platform recommendations or evidence of a successful post.
+效果示意来自课件中的视频案例，左侧对话与本机路径已用淡白色遮盖，指令卡展示调用示例，不是实际执行回执。下面的局部截图保留实际演示界面。视频内容与话题只用于展示操作，不是当前平台的推荐话题，也不代表发布成功。
 
-### Compare headlines
+### 比较标题
 
-![Video headline options and the selected headline](docs/screenshots/choose-title.png)
+![视频标题候选与选中状态](docs/screenshots/choose-title.png)
 
-### Select topics for each platform
+### 按平台选话题
 
-![Separate hashtag choices for Xiaohongshu, Douyin and other destinations](docs/screenshots/platform-tags.png)
+![小红书、抖音等平台分别选择话题](docs/screenshots/platform-tags.png)
 
-The rows show separate selections for Xiaohongshu, Douyin, Kuaishou, WeChat Channels, Bilibili and YouTube. Preparing a destination's copy does not publish it or connect an account.
+小红书、抖音、快手、视频号、B 站和 YouTube 各有自己的选择状态。整理某个平台的文案，不会直接连接账号或发布内容。
 
-![Illustrative workflow: prepare, review, copy, optional handoff](docs/workflow.svg)
+![示意：从材料准备到人工选择，再到复制或可选交接](docs/workflow.svg)
 
 <a id="readme-section-3"></a>
 
-## Typical situations
-
-- You have a finished video and a transcript, but need several title directions and a concise description.
-- You post the same clip to multiple platforms and want different hashtags without rewriting the whole description.
-- You want to compare vertical and landscape covers before choosing.
-- A teammate prepares drafts, while you keep control over the final text and whether it gets posted.
-
-<a id="readme-section-4"></a>
-
-## Install
+## 安装
 
 ```bash
 npx skills add mileson/video-publish-workbench
 ```
 
-<a id="readme-section-5"></a>
+<a id="readme-section-4"></a>
 
-## Tell your AI what to prepare
+## 自己填写输入并生成
 
-Place the complete repository in a Skill directory supported by your assistant. If it supports slash invocation, use the example below. Otherwise ask it to read this repository's `SKILL.md`; slash syntax is assistant-specific, not a button in the generated page.
+1. 把 `examples/demo-input.json` 复制到私有项目目录。
+2. 替换合成内容，保留五个标题、正文版本和符合默认数量限制的话题。
+3. 提供视频绝对路径。已有封面可以写进 `video.cover_candidates`，也可以用下面的命令参数登记。
+4. 先校验，再构建并打开页面。视频和封面保留在原位置。
 
-```text
-/video-publish-workbench
-Prepare publishing materials for my desk-organization video for beginners.
-Research the topic, draft headline/body/hashtag options, and generate missing covers.
-If I supply a reference gallery, use its layout and palette, replacing old subjects and copy.
-Build the workbench so I can choose and edit. Do not publish.
+```bash
+python3 scripts/validate_publish_review.py --input /absolute/path/review-input.json --video /absolute/path/video.mp4
+python3 scripts/build_publish_review.py --input /absolute/path/review-input.json --video /absolute/path/video.mp4 --cover-candidate /absolute/path/vertical-3x4.png --bilibili-cover-candidate /absolute/path/landscape-4x3.png --horizontal-cover-candidate /absolute/path/wide-16x9.png --output /absolute/path/project/review.html
 ```
 
-Supply your video and an existing transcript. If transcription is unavailable, the assistant must explain the gap. This workflow generates covers and publishing materials, not a finished video.
+没有对应封面时可以省略参数。没有竖版候选，构建器会把第一帧居中裁成 3:4，作为稳定回退；仍需检查画面是否合适。横版槽位可以为空。登记横版图片不一定自动选中，默认选择由输入 JSON 控制。
 
-| Option | What to request |
-|---|---|
-| Research | Research first, or use only my supplied material |
-| Images | Generate missing assets, or reuse my images |
-| Gallery reference | Follow my authorized gallery layout/palette, or use no gallery |
-| Full preparation | Start from the topic, prepare research, assets and copy, then build the workbench |
+<a id="readme-section-5"></a>
 
-Research and image-production instructions, prompt templates and the local image utility are bundled in this repository. Your assistant supplies authorized browser/search and native image-generation tools. With no such tools, you can still build from existing material. No accounts, provider credentials or author's other private skills are required. Tool availability, login and any paid budget must be handled explicitly.
+## 可选：交接给发布工具
 
-See [capability origins and scope](docs/capability-origins.md).
+多数情况下，复制检查好的内容、手动发布就够用了。已有兼容一键发环境时，可以把最新选择转换为任务；一键发不属于本地工作台的默认依赖。
 
-[Preparation brief example](examples/preparation-brief.json) is for the Agent; the renderer still uses its original input schema.
+```bash
+python3 scripts/build_yijianfa_tasks.py --selection /absolute/path/publish-selection.json --video /absolute/path/video.mp4 --browser-context regular --output-dir /absolute/path/tasks
+```
+
+命令只写出任务 JSON 和 manifest，不执行其中的发布命令。运行真实操作前核对 CLI 能力、当前登录账号和目标平台要求，真实发布需要明确授权及结果链接核验。`--mode publish` 只改变生成任务，仍不执行命令。
+
+当前离线合同里，抖音需要 3:4 加 4:3 封面，YouTube 需要启用的 16:9 封面；YouTube 话题放进描述、task tags 留空。这些映射仍需用实际安装的适配器在真实页面读回，不能据测试宣布所有平台发布已验证。
 
 <a id="readme-section-6"></a>
 
-## Try a safe demo
+## 告诉 AI 你想做什么
 
-Clone the repository or download and extract its ZIP. Keep the whole directory together. You need Python 3.10+, FFmpeg and FFprobe on PATH. Pillow is used only by the synthetic demo generator. Node.js is optional for JavaScript syntax checks. Install these tools through a trusted package source for your operating system.
+把完整仓库放进你的 AI 助手支持的 Skill 目录。支持斜杠调用的助手可以使用下面的指令；其他助手可以直接让它读取仓库里的 `SKILL.md`。斜杠形式取决于所用助手，不是网页里的按钮。
+
+```text
+/video-publish-workbench
+准备这条桌面整理视频的发布材料，面向第一次接触这个主题的人。
+先调研，准备标题、正文和话题；需要图片时生成图片封面。
+有参考图册就参考构图与配色，不沿用旧主题和旧文案。
+最后生成工作台，让我选择和修改。不要发布。
+```
+
+附上自己的视频和已有逐字稿；没有转写能力时，AI 会说明缺口。这里生成封面和发布材料，不生成整条视频。
+
+| 选项 | 你可以怎么说 |
+|---|---|
+| 调研 | “先调研”或“只用我的材料，不调研” |
+| 图片准备 | “帮我生图”或“复用这些图片” |
+| 图册参考 | “参考这份图册的构图与配色”或“不用参考图册” |
+| 全流程 | “从主题开始，调研、准备图片和文案，再生成工作台” |
+
+调研、生图的执行流程和提示词已经打包在本仓库的 [capabilities](capabilities/research/SKILL.md) 中，图片整理工具也随仓库分发。使用时需要你的 AI 助手有可用的浏览器或搜索、生图工具；没有这些工具仍可使用已有材料生成工作台。不会内置账号或密钥，也不会仅凭一句指令绕过付费、登录和授权。
+
+能力来源与集成范围见 [说明](docs/capability-origins.md)。
+
+[前置准备示例](examples/preparation-brief.json)给 Agent 读取；最终工作台仍使用原来的输入格式。
+
+<a id="readme-section-7"></a>
+
+## 什么时候用
+
+- 视频和逐字稿已经有了，希望比较几个标题方向，再决定用哪一个。
+- 同一条视频准备发到多个平台，希望正文共用，话题分别选择。
+- 竖版、横版封面需要一起检查，避免拿错图片。
+- 同事或 AI 负责准备候选，你负责最终修改和发布决定。
+
+<a id="readme-section-8"></a>
+
+## 让 AI 帮你准备自己的视频
+
+这是给 Agent 使用的 Skill，加上一组负责校验和生成页面的 Python 脚本。能读取本地文件、运行 Python 的 AI 助手可以按照 `SKILL.md` 操作。把完整目录放到助手支持的 Skill 目录，或者直接把仓库的绝对路径交给它。不同助手的安装位置不同；生成器本身不会自动写 AI 文案。
+
+你可以这样发送：
+
+> 读取这个仓库的 SKILL.md。根据我提供的视频和逐字稿，准备五个标题、三个正文版本，以及各个平台相关的话题，生成本地视频预发布工作台。视频保持私密，不上传、不发布。缺少逐字稿或平台样本时请说明，不要编造视频内容或热度。
+
+同时提供真实文件路径、目标受众和事实约束。转写、封面制作、实时平台调研需要助手有对应能力和授权；缺少能力时应使用你给出的材料并说明缺口。生成工作台不强制安装作者的其他 Skill。
+
+<a id="readme-section-9"></a>
+
+## 进一步阅读
+
+- [贡献指南](CONTRIBUTING.md)
+- [安全反馈](SECURITY.md)
+
+<a id="readme-section-10"></a>
+
+## 仓库导航
+
+| 入口 | 内容 |
+| --- | --- |
+| [`SKILL.md`](SKILL.md) | Agent 使用规则与执行入口 |
+| [`assets/`](assets/) | 项目图片与静态素材 |
+| [`capabilities/`](capabilities/) | 可独立阅读的能力模块 |
+| [`docs/`](docs/) | 项目说明与参考文档 |
+| [`examples/`](examples/) | 可参考的输入与调用示例 |
+| [`references/`](references/) | 技能规则与输入输出合同 |
+| [`scripts/`](scripts/) | 开发与维护脚本 |
+| [`templates/`](templates/) | 可复用模板 |
+
+<a id="readme-section-11"></a>
+
+## 常见问题
+
+**会自动上传或发布视频吗？** 演示、校验、页面生成都不会。可选交接也只生成文件。使用外部发布集成前先检查命令和授权范围。
+
+**它会自动写标题吗？** AI 助手根据材料准备候选，脚本负责校验和呈现。也可以手工填写 JSON。
+
+**单文件 HTML 能直接分享吗？** 界面、平台图标和视频缩略图在 HTML 内，实际视频、封面引用本机路径。只移动 HTML 可能无法播放；项目搬家后重新构建。分享前检查私人内容和目录。
+
+**复制按钮为什么没反应？** 本地文件的剪贴板权限因浏览器而异。浏览器提供授权时按需允许，或手工选择文字复制；不要绕过安全限制。
+
+**编辑后的内容为什么没了？** 草稿跟随浏览器和存储标识。清理浏览器数据、换浏览器或重新构建不同输入可能影响草稿。替换工作台前保存最新选择。
+
+**只想发一个平台可以吗？** 当前页面构建需要四个基础平台，B 站与 YouTube 在旧输入中可省略。可以只使用需要的复制区域；交接脚本支持 `--platform` 指定目标。
+
+**推荐话题一定能增加流量吗？** 没有这样的保证。演示话题只说明合成内容，活动有效期、参与条件和平台规则需要独立核对。
+
+**为什么拖进来的封面无法交接？** 检查角色、比例、绝对路径、大小和哈希。临时图片需要在允许搜索的目录中找到唯一原文件，能预览不等于发布资产已经就绪。
+
+**可以商用吗？** 源码使用 MIT 许可证。平台名称、图标和你自己的素材另有权利边界，见 [第三方说明](THIRD_PARTY_NOTICES.md)。
+
+<a id="readme-section-12"></a>
+
+## 隐私、验证与维护
+
+公开仓库没有密钥或私人执行记录。构建脚本和页面没有远程网络请求。生成 HTML、选择数据会含本地路径和内容，请保存在私有项目里；AI 服务如何处理材料，需要另外决定。浏览器草稿和剪贴板可能保留你选择的文字。
+
+```bash
+python3 scripts/test_build_publish_review.py
+python3 scripts/test_yijianfa_handoff.py
+```
+
+测试使用临时合成素材，默认离线。只有明确设置 `RUN_YIJIANFA_INTEGRATION=1` 才会调用已安装 CLI 的 prepare，不要随意启用。测试覆盖构建、可用时的 JavaScript 语法、第一帧比例、数量门禁和任务映射，不代替浏览器实看或真实平台发布验收。
+
+私人文件放到仓库外。`output/`、`local/`、环境文件和 Python 缓存已忽略。反馈问题时提供可复现的合成输入，去掉账号信息。许可条款见 [LICENSE](LICENSE)。
+
+<a id="readme-section-13"></a>
+
+## 先跑一个安全的演示
+
+克隆仓库，或下载 ZIP 后解压，保留完整目录。需要 Python 3.10 或更新版本，以及 PATH 中可用的 FFmpeg、FFprobe。Pillow 只用于生成演示图片；Node.js 可选，用于测试生成页面的 JavaScript 语法。通过适合你系统的可信安装渠道准备这些工具。
 
 ```bash
 python3 -m venv .venv
@@ -120,109 +221,10 @@ python3 -m pip install -r requirements.txt
 python3 scripts/make_demo.py
 ```
 
-Open `output/demo/review.html` locally. It contains a one-second synthetic video, three synthetic covers, five title options, three body versions and six platform hashtag sections. Choose a title, edit a description, change hashtags and use the copy buttons. **Nothing is posted.** The generator outputs a local path; it does not start a server or browser. Windows users can use `python` instead of `python3` when that is their Python command.
+打开 `output/demo/review.html`。里面有一秒钟合成视频、三张合成封面、五个标题、三个正文版本和六个平台的话题区域。你可以选择标题、修改正文、勾选话题，再尝试复制。**这些操作不会发布内容。** 生成器只输出本地路径，不自动打开浏览器或启动服务器。Windows 中若 Python 命令是 `python`，可以把命令里的 `python3` 换为 `python`。
 
-The demo can be regenerated anywhere with `--output-dir /absolute/path/demo`. Generated files contain your local paths, so do not commit or share them without a privacy review.
+用 `--output-dir /absolute/path/demo` 可以指定演示输出位置。生成文件会包含本机路径，分享或提交前需要检查隐私。
 
-![Illustrative page map: media, title, body, tags and copy](docs/page-map.svg)
+![示意：预览、标题、正文、话题与复制的页面结构](docs/page-map.svg)
 
-The workflow and page-map SVGs are explanatory diagrams. The teaching previews above show layout and controls, not evidence of a live posting session.
-
-<a id="readme-section-7"></a>
-
-## Use it with an AI assistant
-
-This is an Agent skill plus deterministic Python scripts. An assistant that can read local files and run Python can follow `SKILL.md`; place the whole directory in that assistant’s supported skill directory, or give it the absolute path explicitly. Installation locations depend on your assistant. The scripts do not generate AI copy by themselves.
-
-You can send:
-
-> Read this repository’s SKILL.md. Use my video and transcript to prepare five title options, three description versions and relevant per-platform hashtags. Build the local video pre-publish workbench. Keep the video private, do not upload it or publish anything. Explain any missing transcript or platform evidence.
-
-Give the assistant actual local paths and factual constraints. If transcription, current platform research or cover design is unavailable, it should explain the missing piece and continue with the material you supplied. No separate author-style, secret-vault or publishing skill is required to generate the page.
-
-<a id="readme-section-8"></a>
-
-## Run it with your own input
-
-1. Copy `examples/demo-input.json` to a private project directory.
-2. Replace the synthetic content with five title options, descriptions and relevant tags. Keep title and tag counts within the repository’s defaults.
-3. Supply the absolute video path. Optionally register cover paths in `video.cover_candidates`, or use the repeatable CLI flags below.
-4. Validate, build and open the generated HTML. Keep the video and cover files in place.
-
-```bash
-python3 scripts/validate_publish_review.py --input /absolute/path/review-input.json --video /absolute/path/video.mp4
-python3 scripts/build_publish_review.py --input /absolute/path/review-input.json --video /absolute/path/video.mp4 --cover-candidate /absolute/path/vertical-3x4.png --bilibili-cover-candidate /absolute/path/landscape-4x3.png --horizontal-cover-candidate /absolute/path/wide-16x9.png --output /absolute/path/project/review.html
-```
-
-Omit cover flags when you have no files for that slot. Without a vertical candidate, the builder crops the first frame to 3:4. This is a fallback preview, so check whether the composition is usable. Horizontal slots can stay empty. JSON defaults control which registered cover is selected; simply adding a landscape candidate does not always select it.
-
-<a id="readme-section-9"></a>
-
-## Optional publishing handoff
-
-Most users can copy the reviewed text and post manually. If you have a compatible yijianfa setup, the supplied converter writes tasks from the latest selection; yijianfa is not a default dependency.
-
-```bash
-python3 scripts/build_yijianfa_tasks.py --selection /absolute/path/publish-selection.json --video /absolute/path/video.mp4 --browser-context regular --output-dir /absolute/path/tasks
-```
-
-This command writes JSON and a manifest. It does not run any generated publishing commands. Confirm your installed CLI’s capabilities, the logged-in account and current destination requirements before executing anything. A live post needs explicit authorization and a verified result URL. `--mode publish` changes generated tasks; it still does not execute them. The offline contract requires 3:4 plus 4:3 for Douyin, and an enabled 16:9 cover for YouTube. It puts YouTube hashtags in the description and leaves task tags empty. These mappings need live readback with your installed adapter.
-
-<a id="readme-section-10"></a>
-
-## Repository map
-
-| Entry | Contents |
-| --- | --- |
-| [`SKILL.md`](SKILL.md) | Agent instructions and entry point |
-| [`assets/`](assets/) | Images and static assets |
-| [`capabilities/`](capabilities/) | Preparation capability modules |
-| [`docs/`](docs/) | Project documentation and references |
-| [`examples/`](examples/) | Example inputs and usage |
-| [`references/`](references/) | Skill rules and input/output contracts |
-| [`scripts/`](scripts/) | Development and maintenance scripts |
-| [`templates/`](templates/) | Reusable templates |
-
-<a id="readme-section-11"></a>
-
-## Further reading
-
-- [Contributing](CONTRIBUTING.md)
-- [Security reporting](SECURITY.md)
-
-<a id="readme-section-12"></a>
-
-## FAQ
-
-**Will this upload or post my video?** Local validation, demo and page building do not. Optional handoff only writes task files. Review generated commands before using a publishing integration.
-
-**Does it write the titles for me?** The AI assistant prepares content from your material; the builder validates and renders that content. You can also edit JSON manually.
-
-**Is the page a completely portable single file?** The interface, platform icons and video thumbnail are inside the HTML. The actual video and covers use local paths. Moving the HTML alone can break playback; rebuild after moving your project.
-
-**Why is copying blocked?** Browser security and clipboard permissions differ for local files. Allow copying if your browser offers it, or manually select the text. Do not bypass security restrictions.
-
-**Why did my edits disappear?** Drafts belong to a browser and storage key. Clearing site data, changing browsers or rebuilding different input may change the draft. Export the current selection before replacing a workbench.
-
-**Can I use just one target platform?** The current builder requires four core platform sections; Bilibili and YouTube are optional for legacy compatibility. You can use only the copy section you need. Handoff supports explicit `--platform` filtering.
-
-**Are hashtags guaranteed to increase reach?** No. Demo tags explain the synthetic content. Activity eligibility and current rules need their own evidence.
-
-**Why does cover handoff fail?** Check aspect ratio, role, absolute path and file metadata. A dragged image must resolve to exactly one original file inside the allowed search roots. Previewing an image alone does not make it publishable.
-
-**Can I use it commercially?** The source is MIT licensed. Platform trademarks, icons and your own media have separate rights. See [third-party notices](THIRD_PARTY_NOTICES.md).
-
-<a id="readme-section-13"></a>
-
-## Privacy, verification and maintenance
-
-No credentials or private history are distributed. The builder and template have no remote network fetches. Generated HTML and selection data expose local file paths and content; keep them private. If an AI service processes your material, that service’s data handling is a separate decision. Browser drafts and the clipboard may retain selected text.
-
-```bash
-python3 scripts/test_build_publish_review.py
-python3 scripts/test_yijianfa_handoff.py
-```
-
-Tests use synthetic temporary assets and run offline by default. An installed publishing CLI is contacted only when you explicitly set `RUN_YIJIANFA_INTEGRATION=1`; do not enable it casually. Regression coverage checks construction, JavaScript syntax when Node is available, fallback ratios, capacity failures and task mapping. It does not certify browser layouts or real platform posting.
-
-Keep private files outside the repository. `output/`, `local/`, environment files and Python caches are ignored. Report reproducible bugs with synthetic input and no account details. See [LICENSE](LICENSE) for the MIT terms.
+workflow 与 page-map 两张 SVG 用于说明流程和页面区域；前面的教学效果图与局部截图用于理解操作，都不表示本次发生了真实发布。
