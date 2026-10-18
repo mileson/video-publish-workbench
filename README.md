@@ -228,7 +228,7 @@ python3 scripts/build_yijianfa_tasks.py --selection /absolute/path/publish-selec
 | [`examples/`](examples/) | 可参考的输入与调用示例 | 用现有样例核对输入格式和调用方式 |
 | [`references/`](references/) | 技能规则与输入输出合同 | 核对输入约定、操作细节与适用边界 |
 | [`scripts/`](scripts/) | 开发与维护脚本 | 查找构建、验证或维护的现有命令 |
-| [`templates/`](templates/) | 可复用模板 | 按当前职责查阅实现及目录内说明 |
+| [`templates/`](templates/) | 当前任务使用的输出模板 | 复用或修改页面、文案或其他输出模板 |
 
 <a id="readme-section-11"></a>
 
