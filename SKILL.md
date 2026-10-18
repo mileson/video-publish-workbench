@@ -1,5 +1,5 @@
 ---
-name: social-publish-package
+name: video-publish-workbench
 description: 为视频、字幕、逐字稿或主题材料准备标题、正文和逐平台话题，可选调研与封面生图，生成可编辑的本地视频预发布工作台。用户选择后可复制发布信息；明确要求时再生成可选的一键发交接任务。
 ---
 

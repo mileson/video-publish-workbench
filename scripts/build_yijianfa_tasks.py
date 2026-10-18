@@ -7,7 +7,7 @@
 # ## 输出 (Output)
 # 写出所选平台各自的 CLI 任务 JSON 和 handoff-manifest.json；B站优先使用已选 4:3 封面，旧四平台选择仍兼容。
 # ## 定位 (Position)
-# 位于 social-publish-package 的评审到一键发交接层；不直接授权或执行真实发布。
+# 位于 video-publish-workbench 的评审到一键发交接层；不直接授权或执行真实发布。
 # ## 依赖 (Dependency)
 # - references/publish-selection.schema.json：评审选择结构合同。
 # - references/yijianfa-handoff-contract.md：平台拆分、封面解析与发布门禁。

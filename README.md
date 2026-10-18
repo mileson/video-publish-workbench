@@ -1,4 +1,4 @@
-# Video pre-publish workbench
+# Video Publish Workbench
 
 **Turn a video’s titles, descriptions, hashtags and covers into one local page where you can review and choose before posting.**
 
@@ -6,12 +6,18 @@
 
 Preparing the same video for several destinations often means switching between notes, cover files and platform-specific copy. This skill lets an AI prepare options and gives you a page for the final decisions. Local generation needs no platform login, API key or publishing CLI. The page currently uses Chinese interface labels; the documentation is available in both languages.
 
+## Install
+
+```bash
+npx skills add mileson/video-publish-workbench
+```
+
 ## Tell your AI what to prepare
 
 Place the complete repository in a Skill directory supported by your assistant. If it supports slash invocation, use the example below. Otherwise ask it to read this repository's `SKILL.md`; slash syntax is assistant-specific, not a button in the generated page.
 
 ```text
-/social-publish-package
+/video-publish-workbench
 Prepare publishing materials for my desk-organization video for beginners.
 Research the topic, draft headline/body/hashtag options, and generate missing covers.
 If I supply a reference gallery, use its layout and palette, replacing old subjects and copy.

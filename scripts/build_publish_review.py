@@ -8,7 +8,7 @@
 # ## 输出 (Output)
 # 写出包含交互逻辑、Base64 平台 Logo、本地视频 URI 与稳定封面路径的单文件 HTML，并输出机器可读摘要。
 # ## 定位 (Position)
-# 位于 social-publish-package 的确定性构建层；AI 生成数据，本脚本只校验、转义和渲染。
+# 位于 video-publish-workbench 的确定性构建层；AI 生成数据，本脚本只校验、转义和渲染。
 # ## 依赖 (Dependency)
 # - validate_publish_review.py：输入与封面候选门禁。
 # - extract_first_frame_cover.py：无自定义竖版封面时生成 3:4 第一帧回退资产。

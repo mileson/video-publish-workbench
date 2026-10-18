@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://local.invalid/social-publish-package/publish-selection.schema.json",
-  "title": "Social Publish Package Review Selection",
+  "title": "Video Publish Workbench Review Selection",
   "type": "object",
   "additionalProperties": false,
   "required": ["schema_version", "title", "body", "platforms", "covers"],

@@ -7,7 +7,7 @@
 # ## 输出 (Output)
 # 写出居中裁切的 3:4 JPEG/PNG 第一帧图片；失败时抛出包含命令错误的异常，不静默回退平台默认行为。
 # ## 定位 (Position)
-# 位于 social-publish-package 的媒体准备层，由 build_publish_review.py 在无封面候选时调用。
+# 位于 video-publish-workbench 的媒体准备层，由 build_publish_review.py 在无封面候选时调用。
 # ## 依赖 (Dependency)
 # - FFmpeg：执行单帧解码。
 # - build_publish_review.py：决定何时生成第一帧封面。

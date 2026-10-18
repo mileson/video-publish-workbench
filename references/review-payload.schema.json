@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://local.invalid/social-publish-package/review-payload.schema.json",
-  "title": "Social Publish Package Review Payload",
+  "title": "Video Publish Workbench Review Payload",
   "type": "object",
   "additionalProperties": false,
   "required": [

@@ -8,7 +8,7 @@
 # ## 输出 (Output)
 # 返回 errors/warnings；命令行模式输出 JSON 校验报告并以退出码区分通过或失败。
 # ## 定位 (Position)
-# 位于 social-publish-package 的确定性门禁层，供 AI 写完数据后和 HTML 构建前调用。
+# 位于 video-publish-workbench 的确定性门禁层，供 AI 写完数据后和 HTML 构建前调用。
 # ## 依赖 (Dependency)
 # - references/review-payload.schema.json：结构合同。
 # - references/platform-copy-contract.md：固定平台模式与容量。

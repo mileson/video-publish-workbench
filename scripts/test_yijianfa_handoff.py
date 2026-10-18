@@ -7,7 +7,7 @@
 # ## 输出 (Output)
 # 通过时输出测试摘要；任一交接合同不满足时抛出断言并返回非零退出码。
 # ## 定位 (Position)
-# 位于 social-publish-package 的一键发交接自动验证层。
+# 位于 video-publish-workbench 的一键发交接自动验证层。
 # ## 依赖 (Dependency)
 # - build_yijianfa_tasks.py：被测任务构建器。
 # - references/yijianfa-handoff-contract.md：交接行为合同。

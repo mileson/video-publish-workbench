@@ -7,7 +7,7 @@
 # ## 输出 (Output)
 # 通过时输出测试摘要；任一合同不满足时抛出断言并返回非零退出码。
 # ## 定位 (Position)
-# 位于 social-publish-package 的代表性自动验证入口，覆盖脚本和模板的关键稳定性。
+# 位于 video-publish-workbench 的代表性自动验证入口，覆盖脚本和模板的关键稳定性。
 # ## 依赖 (Dependency)
 # - build_publish_review.py：HTML 构建。
 # - validate_publish_review.py：输入与超限门禁。
@@ -42,7 +42,7 @@ def main() -> int:
     assert not errors, errors
     assert not warnings, warnings
 
-    with tempfile.TemporaryDirectory(prefix="social-publish-package-test-") as temp_value:
+    with tempfile.TemporaryDirectory(prefix="video-publish-workbench-test-") as temp_value:
         temp_dir = Path(temp_value)
         video_path = temp_dir / "sample.mp4"
         subprocess.run(
@@ -237,7 +237,7 @@ def main() -> int:
         fallback_width, fallback_height = probe_media_size(fallback_cover)
         assert abs(fallback_width / fallback_height - 3 / 4) <= 0.02
 
-    print("social publish package tests passed")
+    print("video publish workbench tests passed")
     return 0
 
 
